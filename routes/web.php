@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookRequestController;
+use App\Http\Controllers\MovieRequestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +16,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
+})->name('index');
+
+Route::get('/book', function () {
+    return view('forms.get_book_form');
+});
+
+Route::get('/movie', function () {
+    return view('forms.get_movie_form');
+});
+
+Route::get('/getBook', [BookRequestController::class, 'handle']);
+
+Route::get('/getMovie', [MovieRequestController::class, 'handle']);
+
+Route::fallback(function () {
+    return redirect()->route('index');
 });
