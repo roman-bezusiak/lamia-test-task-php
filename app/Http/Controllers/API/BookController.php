@@ -28,7 +28,7 @@ class BookController extends AuthGate implements APIController
     public function handle(Request $request)
     {
         // Authentication check
-        if(!$this->authenticated()) return redirect('/login');
+        if(!$this->authenticated()) return redirect()->route('login_page');
 
         // Validating the request
         $validator = $this->createValidator($request);
