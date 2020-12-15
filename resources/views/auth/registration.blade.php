@@ -36,4 +36,8 @@
         </div>
     </fieldset>
 </form>
+
+<div>
+    <a href="/api/auth/login">Login</a>
+</div>
 @endsection

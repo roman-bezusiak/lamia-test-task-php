@@ -23,8 +23,6 @@ class MovieController extends AuthGate
         'plot.regex'     => 'Plot should be either "short" or "full"'
     ];
 
-    private static $GET_MOVIE_ENDPOINT_URL = 'https://lamia-py-api.herokuapp.com/getMovie';
-
     /**
      * Handle the incoming request.
      *
@@ -104,7 +102,7 @@ class MovieController extends AuthGate
      */
     private function fetchMovie(string $title, string $year, string $plot)
     {
-        return Http::get(MovieController::$GET_MOVIE_ENDPOINT_URL, [
+        return Http::get(config('services.get_movie_endpoint_url'), [
             'title' => $title,
             'year'  => $year,
             'plot'  => $plot

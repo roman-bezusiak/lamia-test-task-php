@@ -30,4 +30,14 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | These are custom credentials for the Lamia test task
+    |--------------------------------------------------------------------------
+    */
+
+    'get_book_endpoint_url' => env('GET_BOOK_ENDPOINT_URL'),
+
+    'get_movie_endpoint_url' => env('GET_MOVIE_ENDPOINT_URL'),
+
 ];

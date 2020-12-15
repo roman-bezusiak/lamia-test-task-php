@@ -18,8 +18,6 @@ class BookController extends AuthGate
         'isbn.regex'    => 'ISBN is invalid',
     ];
 
-    private static $GET_BOOK_ENDPOINT_URL = 'https://lamia-py-api.herokuapp.com/getBook';
-
     /**
      * Handle the incoming request.
      *
@@ -89,7 +87,7 @@ class BookController extends AuthGate
      */
     private function fetchBook(string $isbn)
     {
-        return Http::get(BookController::$GET_BOOK_ENDPOINT_URL, [
+        return Http::get(config('services.get_book_endpoint_url'), [
             'isbn' => $isbn,
         ]);
     }

@@ -38,6 +38,6 @@
 </form>
 
 <div>
-    <a href="/"></a>
+    <a href="/api/auth/registration">Register</a>
 </div>
 @endsection
