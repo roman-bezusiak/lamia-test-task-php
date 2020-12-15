@@ -1,36 +1,26 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BookRequestController;
-use App\Http\Controllers\MovieRequestController;
+use App\Http\Controllers\WebViews\IndexViewController;
+use App\Http\Controllers\WebViews\Auth\RegistrationViewController;
+use App\Http\Controllers\WebViews\Auth\LoginViewController;
+use App\Http\Controllers\WebViews\Search\BookSearchViewController;
+use App\Http\Controllers\WebViews\Search\MovieSearchViewController;
+use App\Http\Controllers\WebViews\FallbackViewController;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
 */
 
-Route::get('/', function () {
-    return view('index');
-})->name('index');
+Route::get('/',             [IndexViewController::class, 'handle'])       ->name('index_page');
+Route::get('/login',        [LoginViewController::class, 'handle'])       ->name('login_page');
+Route::get('/registration', [RegistrationViewController::class, 'handle'])->name('registration_page');
 
-Route::get('/book', function () {
-    return view('forms.get_book_form');
+Route::group(['prefix' => 'search'], function ($router) {
+    Route::get('/book',  [BookSearchViewController::class, 'handle']) ->name('book_search_page');
+    Route::get('/movie', [MovieSearchViewController::class, 'handle'])->name('movie_search_page');
 });
 
-Route::get('/movie', function () {
-    return view('forms.get_movie_form');
-});
-
-Route::get('/getBook', [BookRequestController::class, 'handle']);
-
-Route::get('/getMovie', [MovieRequestController::class, 'handle']);
-
-Route::fallback(function () {
-    return redirect()->route('index');
-});
+Route::fallback([FallbackViewController::class, 'handle']);

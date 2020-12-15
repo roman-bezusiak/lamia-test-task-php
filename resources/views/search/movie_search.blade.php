@@ -4,17 +4,20 @@
 @endsection
 
 @section('body')
-<form action="/getMovie" method="GET">
-    @if ($errors->any())
-    <div class="error-list-container">
-        <ul class="error-list">
-            @foreach ($errors->all() as $error)
-            <li class="error">{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
-    <div>
+<form action="api/getMovie" method="GET">
+    <fieldset>
+        <legend>Movie search</legend>
+
+        @if ($errors->any())
+        <div>
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
         <div>
             <label for="title">Title</label>
             <input id="title" type="text" name="title" placeholder="Title" required />
@@ -32,10 +35,11 @@
                 <option value="full">full</option>
             </select>
         </div>
-    </div>
-    <div>
-        <button type="reset">Reset</button>
-        <button type="submit">Search</button>
-    </div>
+
+        <div>
+            <button type="reset">Reset</button>
+            <button type="submit">Search</button>
+        </div>
+    </fieldset>
 </form>
 @endsection

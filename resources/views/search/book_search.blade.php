@@ -4,13 +4,15 @@
 @endsection
 
 @section('body')
-<form action="/getBook" method="GET">
+<form action="api/getBook" method="GET">
     <fieldset>
+        <legend>Book search</legend>
+
         @if ($errors->any())
-        <div class="error-list-container">
-            <ul class="error-list">
+        <div>
+            <ul>
                 @foreach ($errors->all() as $error)
-                <li class="error">{{ $error }}</li>
+                <li>{{ $error }}</li>
                 @endforeach
             </ul>
         </div>

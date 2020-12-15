@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -18,11 +17,10 @@ class AuthController extends Controller
     public function login()
     {
         $credentials = request(['email', 'password']);
-
-        if (!$token = auth()->attempt($credentials)) {
+        if (!$token = auth()->attempt($credentials))
+        {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-
         return $this->respondWithToken($token);
     }
 
@@ -35,12 +33,13 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email'    => ['require', 'email', 'unique:users'],
-            'password' => ['require', 'min:12']
+            'email'    => ['required', 'email', 'unique:users'],
+            'password' => ['required', 'min:12']
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([$validator->errors()], 422);
+        if ($validator->fails())
+        {
+            return response()->json(['error' => $validator->errors()], 422);
         }
 
         $user = User::create([
@@ -52,6 +51,16 @@ class AuthController extends Controller
             'message' => 'User created successfully',
             'user'    => $user
         ]);
+    }
+
+    public function me()
+    {
+        return response()->json(auth()->user());
+    }
+
+    public function refresh()
+    {
+        return $this->respondWithToken(auth()->refresh());
     }
 
     public function respondWithToken($token)

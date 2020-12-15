@@ -1,25 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\Auth\AuthGate;
 
-class MovieRequestController extends Controller
+class MovieController extends AuthGate
 {
     private static $validationRules = [
         'title' => ['required'],
-        'year' => ['required', 'regex:/^[1-2][0-9]{3}$/'],
-        'plot' => ['required', 'regex:/^short|full$/']
+        'year'  => ['required', 'regex:/^[1-2][0-9]{3}$/'],
+        'plot'  => ['required', 'regex:/^short|full$/']
     ];
 
     private static $validationErrorMessages = [
         'title.required' => 'Title is not specified',
-        'year.required' => 'Year is not specified',
-        'year.regex' => 'Year is out of range',
-        'plot.required' => 'Plot is not specified',
-        'plot.regex' => 'Plot should be either "short" or "full"'
+        'year.required'  => 'Year is not specified',
+        'year.regex'     => 'Year is out of range',
+        'plot.required'  => 'Plot is not specified',
+        'plot.regex'     => 'Plot should be either "short" or "full"'
     ];
 
     private static $GET_MOVIE_ENDPOINT_URL = 'https://lamia-py-api.herokuapp.com/getMovie';
@@ -30,10 +31,15 @@ class MovieRequestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function handle(Request $request) {
+    public function handle(Request $request)
+    {
+        // Authentication check
+        if(!$this->authenticated()) return redirect('/login');
+
         // Validating the request
         $validator = $this->createValidator($request);
-        if ($validator->fails()) {
+        if ($validator->fails())
+        {
             return redirect()
                 ->back()
                 ->withErrors($validator)
@@ -48,19 +54,23 @@ class MovieRequestController extends Controller
         );
 
         // Validating JSON REST API response code
-        if (!$response->ok()) {
+        if (!$response->ok())
+        {
             $status = $response->status();
-            if ($status === 404) {
+            if ($status === 404)
+            {
                 return view('no_search_results', [
                     'query' => [
                         'title' => $request->title,
-                        'year' => $request->year,
-                        'plot' => $request->plot
+                        'year'  => $request->year,
+                        'plot'  => $request->plot
                     ]
                 ]);
-            } else {
+            }
+            else
+            {
                 return view('remote_error', [
-                    'error_status' => $status,
+                    'error_status'  => $status,
                     'error_message' => $request->body() ?? null
                 ]);
             }
@@ -75,11 +85,12 @@ class MovieRequestController extends Controller
      * @param  \Illuminate\Http\Request             $request
      * @return Illuminate\Support\Facades\Validator
      */
-    private function createValidator(Request $request) {
+    private function createValidator(Request $request)
+    {
         return Validator::make(
             $request->all(),
-            MovieRequestController::$validationRules,
-            MovieRequestController::$validationErrorMessages
+            MovieController::$validationRules,
+            MovieController::$validationErrorMessages
         );
     }
 
@@ -91,11 +102,12 @@ class MovieRequestController extends Controller
      * @param  string                    $plot
      * @return \Illuminate\Http\Response
      */
-    private function fetchMovie(string $title, string $year, string $plot) {
-        return Http::get(MovieRequestController::$GET_MOVIE_ENDPOINT_URL, [
+    private function fetchMovie(string $title, string $year, string $plot)
+    {
+        return Http::get(MovieController::$GET_MOVIE_ENDPOINT_URL, [
             'title' => $title,
-            'year' => $year,
-            'plot' => $plot
+            'year'  => $year,
+            'plot'  => $plot
         ]);
     }
 }

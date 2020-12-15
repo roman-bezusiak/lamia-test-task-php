@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\Auth\AuthGate;
 
-class BookRequestController extends Controller
+class BookController extends AuthGate
 {
     private static $validationRules = [
         'isbn' => ['required', 'regex:/^.{10,17}$/'],
@@ -14,7 +15,7 @@ class BookRequestController extends Controller
 
     private static $validationErrorMessages = [
         'isbn.required' => 'ISBN is not specified',
-        'isbn.regex' => 'ISBN is invalid',
+        'isbn.regex'    => 'ISBN is invalid',
     ];
 
     private static $GET_BOOK_ENDPOINT_URL = 'https://lamia-py-api.herokuapp.com/getBook';
@@ -25,10 +26,15 @@ class BookRequestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function handle(Request $request) {
+    public function handle(Request $request)
+    {
+        // Authentication check
+        if(!$this->authenticated()) return redirect('/login');
+
         // Validating the request
         $validator = $this->createValidator($request);
-        if ($validator->fails()) {
+        if ($validator->fails())
+        {
             return redirect()
                 ->back()
                 ->withErrors($validator)
@@ -39,15 +45,17 @@ class BookRequestController extends Controller
         $response = $this->fetchBook($request->isbn);
 
         // Validating JSON REST API response code
-        if (!$response->ok()) {
+        if (!$response->ok())
+        {
             $status = $response->status();
-            if ($status === 404) {
+            if ($status === 404)
+            {
                 return view('no_search_results', [
-                    'query' => [
-                        'isbn' => $request->isbn
-                    ]
+                    'query' => ['isbn' => $request->isbn]
                 ]);
-            } else {
+            }
+            else
+            {
                 return view('remote_error', [
                     'error_status' => $status,
                     'error_message' => $request->body() ?? null
@@ -64,11 +72,12 @@ class BookRequestController extends Controller
      * @param  \Illuminate\Http\Request             $request
      * @return Illuminate\Support\Facades\Validator
      */
-    private function createValidator(Request $request) {
+    private function createValidator(Request $request)
+    {
         return Validator::make(
             $request->all(),
-            BookRequestController::$validationRules,
-            BookRequestController::$validationErrorMessages
+            BookController::$validationRules,
+            BookController::$validationErrorMessages
         );
     }
 
@@ -78,8 +87,9 @@ class BookRequestController extends Controller
      * @param  string                    $isbn
      * @return \Illuminate\Http\Response
      */
-    private function fetchBook(string $isbn) {
-        return Http::get(BookRequestController::$GET_BOOK_ENDPOINT_URL, [
+    private function fetchBook(string $isbn)
+    {
+        return Http::get(BookController::$GET_BOOK_ENDPOINT_URL, [
             'isbn' => $isbn,
         ]);
     }
