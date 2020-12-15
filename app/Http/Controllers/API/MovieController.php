@@ -55,7 +55,7 @@ class MovieController extends AuthGate implements APIController
             $status = $response->status();
             if ($status === 404)
             {
-                return view('no_search_results', [
+                return view('errors.no_search_results', [
                     'query' => [
                         'title' => $request->title,
                         'year'  => $request->year,
@@ -65,7 +65,7 @@ class MovieController extends AuthGate implements APIController
             }
             else
             {
-                return view('remote_error', [
+                return view('errors.remote_error', [
                     'error_status'  => $status,
                     'error_message' => $request->body() ?? null
                 ]);
