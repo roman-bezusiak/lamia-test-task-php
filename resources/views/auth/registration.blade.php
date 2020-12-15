@@ -4,7 +4,7 @@
 @endsection
 
 @section('body')
-<form action="/api/auth/register" method="POST">
+<form action="/api/auth/registration" method="POST">
     <fieldset>
         <legend>Registration</legend>
 
@@ -38,6 +38,6 @@
 </form>
 
 <div>
-    <a href="/api/auth/login">Login</a>
+    <a href="/login">Login</a>
 </div>
 @endsection

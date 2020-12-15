@@ -4,7 +4,7 @@
 @endsection
 
 @section('body')
-<form id="login-from" action="/api/auth/login" method="POST">
+<form action="/api/auth/login" method="POST">
     <fieldset>
         <legend>Login</legend>
 
@@ -32,12 +32,12 @@
 
         <div>
             <button type="reset">Reset</button>
-            <button id="sumbit-btn" type="submit">Login</button>
+            <button type="submit">Login</button>
         </div>
     </fieldset>
 </form>
 
 <div>
-    <a href="/api/auth/registration">Register</a>
+    <a href="/registration">Register</a>
 </div>
 @endsection
