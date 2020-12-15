@@ -40,21 +40,27 @@ This project and its dependencies are supported on **Ubuntu** and **Heroku VM**.
 
 ## API
 
-| Route                        | Type | Description                                       |
-| ---------------------------- | ---- | ------------------------------------------------- |
-| **`/`**                      | Page | Main application page. JWT bearer token required. |
-| **`/login`**                 | Page | Login page                                        |
-| **`/registration`**          | Page | Registration page                                 |
-| **`/search/book`**           | Page | Book search page                                  |
-| **`/search/movie`**          | Page | Movie search page                                 |
-| **`/api/getBook`**           | API  | Book data API                                     |
-| **`/api/getMovie`**          | API  | Movie data API                                    |
-| **`/api/auth/login`**        | API  | Login API                                         |
-| **`/api/auth/logout`**       | API  | Logout API                                        |
-| **`/api/auth/registration`** | API  | Registration API                                  |
+| Route                        | JWT required | Type | Description                                       |
+| ---------------------------- | ------------ | ---- | ------------------------------------------------- |
+| **`/`**                      | Yes          | Page | Main application page. JWT bearer token required. |
+| **`/login`**                 | No           | Page | Login page                                        |
+| **`/registration`**          | No           | Page | Registration page                                 |
+| **`/search/book`**           | Yes          | Page | Book search page                                  |
+| **`/search/movie`**          | Yes          | Page | Movie search page                                 |
+| **`/api/getBook`**           | Yes          | API  | Book data API                                     |
+| **`/api/getMovie`**          | Yes          | API  | Movie data API                                    |
+| **`/api/auth/login`**        | No           | API  | Login API                                         |
+| **`/api/auth/logout`**       | Yes          | API  | Logout API                                        |
+| **`/api/auth/registration`** | No           | API  | Registration API                                  |
+
+**JWT required** - identifies paths, which require to add JWT token in `Authorization` header on the client side in order to proceed, basic form:
+
+```txt
+Authorization: Bearer <token>
+```
 
 ## Behaviour Flow
 
 1. Registration
 2. Login -> **JWT Token**
-3. Addressing **Book API** or **Movie API** (Postman)
+3. Addressing **Book API** or **Movie API** (via Postman)
