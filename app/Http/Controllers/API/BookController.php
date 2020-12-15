@@ -34,10 +34,7 @@ class BookController extends AuthGate implements APIController
         $validator = $this->createValidator($request);
         if ($validator->fails())
         {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
+            return redirect()->route('book_search_page');
         }
 
         // Fetching data from JSON REST API
