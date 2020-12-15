@@ -7,6 +7,11 @@ use App\Http\Controllers\Controller;
 
 class AuthGate extends Controller
 {
+    /**
+     * Returns true if current user is authenticated, and false if not
+     *
+     * @return bool
+     */
     public function authenticated()
     {
         try

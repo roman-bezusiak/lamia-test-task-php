@@ -67,8 +67,8 @@ class BookController extends AuthGate
     /**
      * Creates and returns validator for the incoming request.
      *
-     * @param  \Illuminate\Http\Request             $request
-     * @return Illuminate\Support\Facades\Validator
+     * @param  \Illuminate\Http\Request              $request
+     * @return \Illuminate\Support\Facades\Validator
      */
     private function createValidator(Request $request)
     {

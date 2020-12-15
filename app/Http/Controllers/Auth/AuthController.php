@@ -14,6 +14,12 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
+    /**
+     * If user is registered in database, one will belogged in ind receive
+     * a JWT token after providing email and password information
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function login()
     {
         $credentials = request(['email', 'password']);
@@ -24,12 +30,23 @@ class AuthController extends Controller
         return $this->respondWithToken($token);
     }
 
+    /**
+     * Invalidated current user's logged in JWT token
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function logout()
     {
         auth()->logout();
         return response()->json(['message' => 'Successfully logged out']);
     }
 
+    /**
+     * Registers user in Postgres with email and password
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -53,16 +70,31 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * Returns current authenticated user info
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function me()
     {
         return response()->json(auth()->user());
     }
 
+    /**
+     * Renewes user's JWT token and sends the new one back to client
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function refresh()
     {
         return $this->respondWithToken(auth()->refresh());
     }
 
+    /**
+     * Composes a
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function respondWithToken($token)
     {
         return response()->json([
