@@ -91,7 +91,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Composes a
+     * Composes a JSON response with JWT data
      *
      * @return \Illuminate\Http\Response
      */
