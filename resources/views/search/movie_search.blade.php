@@ -5,6 +5,7 @@
 
 @section('body')
 <form action="api/getMovie" method="GET">
+    @csrf
     <fieldset>
         <legend>Movie search</legend>
 

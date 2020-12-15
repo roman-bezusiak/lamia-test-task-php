@@ -5,6 +5,7 @@
 
 @section('body')
 <form action="/api/auth/registration" method="POST">
+    @csrf
     <fieldset>
         <legend>Registration</legend>
 

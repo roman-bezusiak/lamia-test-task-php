@@ -5,6 +5,7 @@
 
 @section('body')
 <form action="api/getBook" method="GET">
+    @csrf
     <fieldset>
         <legend>Book search</legend>
 
