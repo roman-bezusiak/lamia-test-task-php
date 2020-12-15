@@ -71,26 +71,6 @@ class AuthController extends Controller
     }
 
     /**
-     * Returns current authenticated user info
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function me()
-    {
-        return response()->json(auth()->user());
-    }
-
-    /**
-     * Renewes user's JWT token and sends the new one back to client
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function refresh()
-    {
-        return $this->respondWithToken(auth()->refresh());
-    }
-
-    /**
      * Composes a JSON response with JWT data
      *
      * @return \Illuminate\Http\Response
