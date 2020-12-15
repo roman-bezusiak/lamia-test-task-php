@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Auth\AuthGate;
+use App\Http\Controllers\API\APIController;
 
-class MovieController extends AuthGate
+class MovieController extends AuthGate implements APIController
 {
     private static $validationRules = [
         'title' => ['required'],
@@ -83,7 +84,7 @@ class MovieController extends AuthGate
      * @param  \Illuminate\Http\Request              $request
      * @return \Illuminate\Support\Facades\Validator
      */
-    private function createValidator(Request $request)
+    public function createValidator(Request $request)
     {
         return Validator::make(
             $request->all(),
