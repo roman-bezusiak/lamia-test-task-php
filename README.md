@@ -25,7 +25,7 @@ This project and its dependencies are supported on **Ubuntu** and **Heroku VM**.
 - Apache2 (on Heroku)
 - Postgres
 
-## Environmant variables
+## Environment variables
 
 | Name                         | Description                                                   |
 | ---------------------------- | ------------------------------------------------------------- |
