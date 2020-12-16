@@ -9,9 +9,9 @@
         <p>Test Task Client</p>
     </header>
     <main>
-        <a href="/book">Find a book</a>
+        <a href="/search/book">Find a book</a>
         <br />
-        <a href="/movie">Find a movie</a>
+        <a href="/search/movie">Find a movie</a>
     </main>
 </div>
 @endsection
